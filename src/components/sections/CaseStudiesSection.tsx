@@ -1,100 +1,118 @@
 "use client";
 
+import { useState } from "react";
 import { Container } from "../ui/Container";
-import { Button } from "../ui/Button";
 import Image from "next/image";
+
+type Category = "sns" | "web";
+
+const categories = [
+  { id: "sns", label: "SNS運用" },
+  { id: "web", label: "ホームページ制作" },
+] as const;
 
 const caseStudies = [
   {
-    title: "SNS運用支援",
-    category: "Webマーケティング",
-    description:
-      "フォロワー数を3ヶ月で10倍に増加。認知度向上とCV率の改善を実現。",
-    imageUrl: "https://placehold.co/800x600/png",
-    client: "株式会社A社様",
-    results: ["フォロワー数10倍増", "CV率2.5倍改善", "認知度30%向上"],
+    title: "コートヤード・バイ・マリオット名古屋",
+    category: "sns",
+    mainImage: "/images/cases/pro_ishii.png",
   },
   {
-    title: "採用支援",
-    category: "人材採用",
-    description:
-      "応募数を前年比200%に増加。採用コストを40%削減しながら質の高い人材を確保。",
-    imageUrl: "https://placehold.co/800x600/png",
-    client: "B株式会社様",
-    results: ["応募数200%増", "採用コスト40%削減", "早期離職率50%減"],
+    title: "サンジルシ醤油株式会社",
+    category: "sns",
+    mainImage: "/images/cases/pro_ishii.png",
   },
   {
-    title: "Webサイトリニューアル",
-    category: "Web制作",
-    description:
-      "コンバージョン率を3倍に改善。サイト表示速度も50%向上し、ユーザー体験を大幅に改善。",
-    imageUrl: "https://placehold.co/800x600/png",
-    client: "C社様",
-    results: ["CV率200%改善", "直帰率30%減少", "LPO改善率150%"],
+    title: "JAいがふるさと",
+    category: "sns",
+    mainImage: "/images/cases/pro_ishii.png",
+  },
+  {
+    title: "株式会社テクノソリューション",
+    category: "web",
+    mainImage: "/images/cases/pro_ishii.png",
+  },
+  {
+    title: "デジタルウェーブ株式会社",
+    category: "web",
+    mainImage: "/images/cases/pro_ishii.png",
+  },
+  {
+    title: "株式会社ネクストラボ",
+    category: "web",
+    mainImage: "/images/cases/pro_ishii.png",
   },
 ];
 
 export const CaseStudiesSection = () => {
+  const [activeCategory, setActiveCategory] = useState<Category>("sns");
+
+  const filteredCases = caseStudies.filter(
+    (study) => study.category === activeCategory
+  );
+
   return (
     <section className="py-24 bg-white">
       <Container>
-        <div className="text-center mb-16">
-          <span className="inline-block text-primary font-medium mb-4">
-            Case Studies
-          </span>
-          <h2 className="text-4xl font-bold mb-6">実績紹介</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            私たちは、お客様のビジネスの成長を数値で実証してきました。
-            具体的な成果とその実現プロセスをご紹介します。
-          </p>
+        {/* 見出し */}
+        <h2 className="section-title">実績紹介</h2>
+
+        {/* カテゴリータブ */}
+        <div className="flex gap-4 mb-12">
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setActiveCategory(category.id as Category)}
+              className={`py-3 px-8 text-lg transition-colors rounded ${
+                activeCategory === category.id
+                  ? "bg-primary-600 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {category.label}
+            </button>
+          ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          {caseStudies.map((study, index) => (
+        {/* 実績カード */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredCases.map((study, index) => (
             <div
               key={index}
-              className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group"
             >
-              <div className="relative h-48 overflow-hidden">
+              {/* 画像部分（70%） */}
+              <div className="relative aspect-[4/3]">
                 <Image
-                  src={study.imageUrl}
+                  src={study.mainImage}
                   alt={study.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  width={800}
+                  height={600}
+                  className="object-cover object-center w-full h-full group-hover:scale-105 transition-transform duration-300"
+                  priority
                 />
-                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm">
-                  {study.category}
-                </div>
               </div>
 
-              <div className="p-6">
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold mb-2">{study.title}</h3>
-                  <p className="text-gray-600 text-sm">{study.client}</p>
-                </div>
-
-                <p className="text-gray-600 mb-4">{study.description}</p>
-
-                <div className="space-y-2">
-                  {study.results.map((result, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center text-sm text-gray-600"
-                    >
-                      <span className="w-2 h-2 bg-primary rounded-full mr-2" />
-                      {result}
-                    </div>
-                  ))}
+              {/* テキスト部分（30%） */}
+              <div className="p-4">
+                <h3 className="text-sm font-bold text-gray-900 mb-2">
+                  {study.title}
+                </h3>
+                <div className="flex items-center justify-between">
+                  <span className="inline-block bg-primary-600 text-white text-xs px-3 py-1 rounded">
+                    {categories.find((c) => c.id === study.category)?.label}
+                  </span>
+                  <Image
+                    src="https://placehold.co/24x24/png" // 虫眼鏡アイコンに置き換え
+                    alt="詳細を見る"
+                    width={24}
+                    height={24}
+                    className="opacity-70"
+                  />
                 </div>
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="text-center">
-          <Button variant="primary" className="px-8 py-3">
-            実績一覧へ
-          </Button>
         </div>
       </Container>
     </section>

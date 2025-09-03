@@ -66,9 +66,9 @@ export const StrengthsAndBlogSection = () => {
       {/* 強みセクション */}
       <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
         <Container>
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">選ばれる理由</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+          <div className="mb-16">
+            <h2 className="section-title">選ばれる理由</h2>
+            <p className="section-subtitle">
               私たちは、お客様のビジネスの成長を第一に考え、
               実績と専門性を活かした支援を提供しています。
             </p>
@@ -78,9 +78,9 @@ export const StrengthsAndBlogSection = () => {
             {strengths.map((strength, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+                className="bg-white rounded-lg p-8 shadow-lg hover:shadow-xl transition-all duration-300"
               >
-                <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+                <div className="w-16 h-16 bg-primary-100 rounded-lg flex items-center justify-center mb-6">
                   {/* アイコンは後ほど追加 */}
                 </div>
                 <h3 className="text-xl font-bold mb-4">{strength.title}</h3>
@@ -94,9 +94,9 @@ export const StrengthsAndBlogSection = () => {
       {/* ブログセクション */}
       <section className="py-24 bg-white">
         <Container>
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">ホームグローのブログ</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+          <div className="mb-16">
+            <h2 className="section-title">ホームグローのブログ</h2>
+            <p className="section-subtitle">
               Web制作やマーケティングに関する最新情報や
               実践的なノウハウをご紹介します。
             </p>
@@ -116,7 +116,7 @@ export const StrengthsAndBlogSection = () => {
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                  <div className="absolute top-4 left-4 bg-primary-600 text-white px-3 py-1 rounded text-sm">
                     {blog.category}
                   </div>
                 </div>
@@ -133,7 +133,7 @@ export const StrengthsAndBlogSection = () => {
             ))}
           </div>
 
-          <div className="text-center">
+          <div className="text-right">
             <Link
               href="/blog"
               className="inline-flex items-center text-primary hover:text-primary-dark font-medium"
