@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Container } from "../ui/Container";
-import { Button } from "../ui/Button";
+import Image from "next/image";
 
 const navigation = [
   { name: "会社概要", href: "/company" },
@@ -15,113 +13,104 @@ const navigation = [
 ];
 
 export const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-white/80 backdrop-blur-lg shadow-sm py-4"
-          : "bg-transparent py-6"
-      }`}
+      className="fixed top-0 left-0 right-0 h-[80px] z-50"
+      style={{ backgroundColor: "transparent", isolation: "isolate" }}
     >
-      <Container>
-        <div className="flex items-center justify-between">
-          {/* ロゴ */}
-          <Link href="/" className="relative z-10">
-            <span className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Homegrow
-            </span>
+      <div className="h-full flex">
+        {/* メインナビゲーションエリア */}
+        <div className="flex-1">
+          <Container className="h-full">
+            <div className="flex items-center h-full">
+              {/* ロゴ */}
+              <Link href="/" className="relative z-10 w-[200px]">
+                <span
+                  className="text-2xl font-bold"
+                  style={{
+                    color: "#ffffff",
+                    textShadow: "0 0 1px rgba(0,0,0,0.1)",
+                  }}
+                >
+                  Homegrow
+                </span>
+              </Link>
+
+              {/* PCナビゲーション */}
+              <nav className="hidden md:flex items-center justify-center flex-1 space-x-12 px-8">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="font-bold text-center transition-colors"
+                    style={{
+                      color: "#ffffff",
+                      textShadow: "0 0 1px rgba(0,0,0,0.1)",
+                    }}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </nav>
+
+              {/* モバイルメニューボタン */}
+              <button className="md:hidden p-2">
+                <span className="sr-only">メニューを開く</span>
+                <svg
+                  className="w-6 h-6"
+                  style={{ color: "#ffffff" }}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
+            </div>
+          </Container>
+        </div>
+
+        {/* お問い合わせエリア */}
+        <div className="hidden md:flex">
+          {/* お問い合わせ */}
+          <Link
+            href="/contact"
+            className="flex items-center px-8 h-full bg-white"
+          >
+            <div className="flex items-center text-gray-900">
+              <Image
+                src="/icons/mail.svg"
+                alt="mail"
+                width={20}
+                height={20}
+                className="mr-2"
+              />
+              <span>お問い合わせ</span>
+            </div>
           </Link>
 
-          {/* PCナビゲーション */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-gray-600 hover:text-gray-900 transition-colors font-medium"
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
-
-          {/* お問い合わせボタン */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" className="px-4 py-2">
-              資料請求
-            </Button>
-            <Button variant="primary" className="px-4 py-2">
-              お問い合わせ
-            </Button>
-          </div>
-
-          {/* モバイルメニューボタン */}
-          <button
-            className="md:hidden relative z-10 p-2"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          {/* 電話番号 */}
+          <Link
+            href="tel:059-355-3939"
+            className="flex items-center px-8 h-full bg-gray-700"
           >
-            <div className="relative w-6 h-5">
-              <span
-                className={`absolute w-full h-0.5 bg-gray-900 transform transition-all duration-300 ${
-                  isMobileMenuOpen ? "rotate-45 top-2" : "rotate-0 top-0"
-                }`}
+            <div className="flex items-center text-white">
+              <Image
+                src="/icons/phone.svg"
+                alt="phone"
+                width={20}
+                height={20}
+                className="mr-2"
               />
-              <span
-                className={`absolute w-full h-0.5 bg-gray-900 top-2 transition-all duration-300 ${
-                  isMobileMenuOpen ? "opacity-0" : "opacity-100"
-                }`}
-              />
-              <span
-                className={`absolute w-full h-0.5 bg-gray-900 transform transition-all duration-300 ${
-                  isMobileMenuOpen ? "-rotate-45 top-2" : "rotate-0 top-4"
-                }`}
-              />
+              <span>059-355-3939</span>
             </div>
-          </button>
+          </Link>
         </div>
-      </Container>
-
-      {/* モバイルメニュー */}
-      <div
-        className={`fixed inset-0 bg-white z-40 transform transition-transform duration-300 md:hidden ${
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <Container className="h-full pt-24 pb-8">
-          <div className="flex flex-col h-full">
-            <nav className="flex-1">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="block py-4 text-lg font-medium text-gray-900 border-b border-gray-100"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
-            <div className="space-y-4 pt-8">
-              <Button variant="outline" className="w-full justify-center">
-                資料請求
-              </Button>
-              <Button variant="primary" className="w-full justify-center">
-                お問い合わせ
-              </Button>
-            </div>
-          </div>
-        </Container>
       </div>
     </header>
   );

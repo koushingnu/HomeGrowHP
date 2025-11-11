@@ -87,11 +87,11 @@ export const ServicesSection = () => {
                   <Link
                     key={itemIndex}
                     href={item.href}
-                    className="group relative overflow-hidden"
+                    className="group relative overflow-hidden rounded-md"
                     onMouseEnter={() => setHoveredItem(`${index}-${itemIndex}`)}
                     onMouseLeave={() => setHoveredItem(null)}
                   >
-                    <div className="relative z-10 flex items-center justify-between px-4 py-3 text-sm border border-primary-600 rounded whitespace-nowrap min-w-[140px]">
+                    <div className="relative z-10 flex items-center justify-between px-4 py-3 text-sm border border-primary-600 rounded-md whitespace-nowrap min-w-[140px]">
                       <span
                         className={`transition-colors duration-300 ${
                           hoveredItem === `${index}-${itemIndex}`
@@ -120,7 +120,7 @@ export const ServicesSection = () => {
                       </svg>
                     </div>
                     <div
-                      className={`absolute inset-0 bg-primary-600 transform transition-transform duration-300 ${
+                      className={`absolute inset-0 bg-primary-600 transform transition-transform duration-300 rounded-md ${
                         hoveredItem === `${index}-${itemIndex}`
                           ? "translate-x-0"
                           : "-translate-x-full"

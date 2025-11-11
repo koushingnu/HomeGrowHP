@@ -1,77 +1,78 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Container } from "../ui/Container";
 import { Button } from "../ui/Button";
-import { fadeInUp, staggerContainer } from "@/utils/animations";
+import { motion } from "framer-motion";
+import { fadeInUp, slideIn } from "@/utils/animations";
+import { useState } from "react";
 
 export const HeroSection = () => {
+  const [isHovered, setIsHovered] = useState(false);
   return (
-    <section className="relative min-h-screen flex items-center bg-gradient-to-b from-primary-50 to-white">
-      {/* 装飾的な背景要素 */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-4 -right-4 w-72 h-72 bg-primary-200 rounded-full opacity-20 blur-3xl" />
-        <div className="absolute -bottom-4 -left-4 w-72 h-72 bg-secondary-200 rounded-full opacity-20 blur-3xl" />
+    <section className="relative w-full min-h-[calc(110vh-80px)] flex">
+      {/* 左側の背景色 (30%) */}
+      <div className="absolute inset-y-0 left-0 w-[27%] bg-[#e8353b] z-0"></div>
+
+      {/* 右側の動画背景 (70%) */}
+      <div className="absolute inset-y-0 right-0 w-[73%] overflow-hidden z-0">
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/images/hero/ZEN京都.mov"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+        {/* 動画のオーバーレイ */}
+        <div className="absolute inset-0 bg-black opacity-30"></div>
       </div>
 
-      <Container>
-        <motion.div
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-          className="relative z-10 max-w-4xl mx-auto text-center"
-        >
+      {/* コンテンツ */}
+      <Container className="relative z-10 flex items-center w-full">
+        <div className="text-white py-20 md:py-0 max-w-xl">
           <motion.h1
+            className="font-bold leading-tight"
             variants={fadeInUp}
-            className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent"
+            initial="initial"
+            animate="animate"
           >
-            ビジネスの未来を
-            <br className="hidden sm:block" />
-            加速させる
+            <span className="font-poppins italic text-6xl md:text-8xl whitespace-nowrap inline-block mb-6 text-primary-50">
+              From Local to Global
+            </span>
+            <br />
+            <span className="font-poppins text-3xl md:text-4xl whitespace-nowrap inline-block text-secondary-100">
+              ムスリムに選ばれる店へ
+            </span>
           </motion.h1>
-
-          <motion.p
-            variants={fadeInUp}
-            className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto"
-          >
-            私たちは、お客様のビジネスの成長をサポートします。
-            最新のテクノロジーと創造的なアイデアで、
-            あなたのビジネスを次のステージへ。
-          </motion.p>
-
           <motion.div
-            variants={fadeInUp}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex gap-4 mt-12"
+            variants={slideIn}
+            initial="initial"
+            animate="animate"
+            transition={{ delay: 0.4 }}
           >
-            <Button
-              variant="primary"
-              className="px-8 py-3 text-lg shadow-lg shadow-primary-100"
+            <div
+              className="relative overflow-hidden rounded-md"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
             >
-              無料相談はこちら
-            </Button>
-            <Button variant="outline" className="px-8 py-3 text-lg">
-              サービス詳細
-            </Button>
+              <Button
+                variant="outline"
+                className={`px-8 py-3 border-white relative z-10 transition-colors duration-300 rounded-md ${
+                  isHovered ? "text-primary-600" : "text-white"
+                }`}
+              >
+                無料相談はこちら
+              </Button>
+              <div
+                className={`absolute inset-0 bg-white transform transition-transform duration-300 rounded-md ${
+                  isHovered ? "translate-x-0" : "-translate-x-full"
+                }`}
+              />
+            </div>
           </motion.div>
-        </motion.div>
+        </div>
       </Container>
-
-      {/* スクロールインジケーター */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-        <motion.div
-          animate={{
-            y: [0, 10, 0],
-          }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-          className="w-6 h-10 border-2 border-gray-400 rounded-lg flex justify-center"
-        >
-          <motion.div className="w-1 h-2 bg-gray-400 rounded-full mt-2" />
-        </motion.div>
-      </div>
     </section>
   );
 };
